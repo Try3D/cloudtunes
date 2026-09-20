@@ -1,0 +1,17 @@
+[Unit]
+Description=CloudTunes API
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/opt/cloudtunes/packages/backend
+EnvironmentFile=/etc/cloudtunes.env
+ExecStart=/usr/bin/node src/server.js
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
