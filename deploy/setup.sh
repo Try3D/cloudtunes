@@ -5,7 +5,12 @@ set -euo pipefail
 
 echo "==> Installing packages"
 sudo dnf update -y
-sudo dnf install -y nginx git mariadb105
+sudo dnf install -y nginx git
+
+# MySQL client: RDS runs MySQL 8.4, whose caching_sha2_password auth plugin the
+# MariaDB client cannot handle, so use MySQL's own client package.
+sudo dnf install -y https://dev.mysql.com/get/mysql84-community-release-el9-1.noarch.rpm || true
+sudo dnf install -y mysql-community-client || echo "MySQL client unavailable; the app itself does not need it"
 
 # Node 20 from the Amazon Linux repositories; fall back to the default nodejs package.
 sudo dnf install -y nodejs20 nodejs20-npm || sudo dnf install -y nodejs npm
