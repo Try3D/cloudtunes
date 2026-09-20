@@ -29,7 +29,16 @@ cd /opt/cloudtunes
 npm ci
 
 echo "==> Applying the database schema"
-set -a && . /etc/cloudtunes.env && set +a
+# Must be its own statement: inside an && chain, a failure here would not trip set -e.
+if [ ! -f /etc/cloudtunes.env ]; then
+  echo "ERROR: /etc/cloudtunes.env is missing. Create it first (see AWS.md step 12)." >&2
+  exit 1
+fi
+set -a
+. /etc/cloudtunes.env
+set +a
+: "${DB_HOST:?DB_HOST is not set in /etc/cloudtunes.env}"
+: "${S3_BUCKET:?S3_BUCKET is not set in /etc/cloudtunes.env}"
 npm run init-db
 
 echo "==> Building the client"
