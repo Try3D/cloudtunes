@@ -9,7 +9,7 @@ import {
 
 // S3_ENDPOINT set: minio with env keys, otherwise EC2 resolves its IAM role
 const client = new S3Client({
-  region: process.env.AWS_REGION || 'ap-south-1',
+  region: process.env.AWS_REGION || 'us-east-2',
   ...(process.env.S3_ENDPOINT
     ? {
         endpoint: process.env.S3_ENDPOINT,

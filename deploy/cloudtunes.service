@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-User=ubuntu
+User=ec2-user
 WorkingDirectory=/opt/cloudtunes/packages/backend
 EnvironmentFile=/etc/cloudtunes.env
 ExecStart=/usr/bin/node src/server.js
